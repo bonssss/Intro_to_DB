@@ -1,4 +1,4 @@
-import pymysql
+import mysql.connector
 import os
 from dotenv import load_dotenv
 # Load environment variables from .env file
@@ -9,7 +9,7 @@ User = os.getenv('USER')
 Password = os.getenv('PASSWORD')
 database_name= "alx_book_store"
 try:
-    mydb =pymysql.Connect(
+    mydb =mysql.connector.Connect(
         host=Host,
         user=User,
         password=Password,
