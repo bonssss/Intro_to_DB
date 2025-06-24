@@ -51,40 +51,31 @@ load_dotenv()
 Host = os.getenv('HOST')
 User = os.getenv('USER')
 Password = os.getenv('PASSWORD')
-database_name = "alx_book_store"
+# database_name = "alx_book_store"
 
 print("Starting script...")
 print("Host:", Host)
 print("User:", User)
 print("Password:", Password)
 
-def create_database():
-    connection = None
-    try:
-        print("Connecting to MySQL server...")
-        connection = mysql.connector.connect(
-            host=Host,
-            user=User,
-            password=Password,
-            use_pure=True
-        )
+try:
+    # Connect to MySQL Server (no specific database yet)
+    connection = mysql.connector.connect(
+        host=Host,
+        user=User,
+        password=Password,
+        database="alx_book_store" , # Specify the database name here
+        use_pure=True
+    )
 
-        if connection.is_connected():
-            print("Connected successfully.")
-            cursor = connection.cursor()
-            cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_name}")
-            print(f"Database '{database_name}' created successfully!")
-            cursor.close()
-        else:
-            print("[ERROR] Connection established, but is_connected() returned False.")
-
-    except Error as e:
-        print("[EXCEPTION]", e)
-
-    finally:
-        if connection and connection.is_connected():
-            connection.close()
-            print("Connection closed.")
-
-if __name__ == "__main__":
-    create_database()
+    if connection.is_connected():
+        cursor = connection.cursor()
+        
+        # Create the database if it does not exist
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS alx_book_store")
+        connection.commit()
+        print(f"Database alx_book_store created successfully!")
+    else:
+        print("Failed to connect to the database server.")
+except Error as e:
+    print(f"Error creating database: {e}")
