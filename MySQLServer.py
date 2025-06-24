@@ -77,5 +77,14 @@ try:
         print(f"Database alx_book_store created successfully!")
     else:
         print("Failed to connect to the database server.")
-except Error as e:
-    print(f"Error creating database: {e}")
+except mysql.connector.Error as e:
+    if e.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
+        print("Access denied: Check your username and password.")
+    elif e.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
+        print("Database does not exist.")
+    else:
+        print(f"Error creating database: {e}")
+        
+        
+        
+        # print(f"Error creating database: {e}")
